@@ -11,7 +11,7 @@ insert_final_newline = false
 trim_trailing_whitespace = true
 
 # C
-[*.{c,h}]
+[*.{c,cpp,cxx,h,hpp,hxx}]
 indent_style = tab
 indent_size = 8
 
@@ -54,3 +54,8 @@ indent_size = 2
 # Makefile
 [Makefile]
 indent_style = tab
+
+# Kconfig
+[Kconfig]
+indent_style = tab
+indent_size = 2
