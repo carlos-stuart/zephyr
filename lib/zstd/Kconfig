@@ -1,0 +1,67 @@
+#
+# Copyright (c) 2018 Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+menu "zstd APIs"
+
+config ZSTD
+	bool "Enable zstd APIs."
+	default n
+	depends on NEWLIB_LIBC=y
+	depends on CPLUSPLUS=y
+	depends on EXCEPTIONS=y
+	help
+	  Enable the zstd library which contains STL like implementation of a number
+	  of C++11 features e.g. mutex, thread etc.
+
+if ZSTD
+
+	module = ZSTD
+	module-str = ZSTD
+	source "subsys/logging/Kconfig.template.log_config"
+
+	config ZSTD_NEW
+	bool "Enable zstd new/delete."
+	default n
+	help
+	  Enable support for new/delete for zstd APIs.
+
+	choice ZSTD_NEW_TYPE
+	prompt "Whether new is slab or heap based."
+	default ZSTD_NEW_SLAB
+	depends on ZSTD_NEW
+		config ZSTD_NEW_SLAB
+		bool "Slab based."
+
+		config ZSTD_NEW_HEAP
+		bool "Heap based."
+		depends on HEAP_MEM_POOL_SIZE > 0
+	endchoice
+
+	config ZSTD_MUTEX
+	bool "Enable zstd::mutex APIs."
+	default n
+	help
+	  Enable the zstd::mutex implementation. This includes mutex, timed_mutex,
+	  recursive_mutex and recursive_timed_mutex.
+
+	config ZSTD_MUTEX_NEW_SLAB_MAX_COUNT
+	int "Maximum number of zstd::mutex objects created on new slab."
+	default 10
+	depends on ZSTD_MUTEX
+	depends on ZSTD_NEW_SLAB
+	help
+	  Configure the maximum number of zstd::mutex objects that can be created
+	  with new. This does not limit zstd::mutex objects on the stack.
+
+	config ZSTD_USING_AS_STD
+	bool "Use zstd APIs as STL std APIs. [EXPERIMENTAL]"
+	default n
+	help
+	  Turn on using zstd APIs as STL std APIs i.e. enable using std::mutex etc.
+
+endif
+
+endmenu
