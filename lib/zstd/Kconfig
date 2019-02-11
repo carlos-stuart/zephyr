@@ -56,6 +56,37 @@ if ZSTD
 	  Configure the maximum number of zstd::mutex objects that can be created
 	  with new. This does not limit zstd::mutex objects on the stack.
 
+	config ZSTD_THREAD
+	bool "Enable zstd::thread APIs."
+	default n
+	help
+	  Enable the zstd::thread implementation.
+
+	config ZSTD_THREAD_MAX_COUNT
+	int "Maximum number of std::thread objects on the system."
+	default 10
+	depends on ZSTD_THREAD
+	help
+	  Configure the maximum number of zstd::thread objects that can be created
+	  on the system. This does include zstd::thread objects on the stack.
+
+	config ZSTD_THREAD_STACK_SIZE
+	int "The size of a std::thread stacks."
+	default 512
+	depends on ZSTD_THREAD
+	help
+	  Configure the size of the stack for std::thread. This is defined once for
+	  all zstd::threads on the system.
+
+	config ZSTD_THREAD_NEW_SLAB_MAX_COUNT
+	int "Maximum number of zstd::thread objects created on new slab."
+	default 10
+	depends on ZSTD_THREAD
+	depends on ZSTD_NEW_SLAB
+	help
+	  Configure the maximum number of zstd::thread objects that can be created
+	  with new. This does not limit zstd::thread objects on the stack.
+
 	config ZSTD_USING_AS_STD
 	bool "Use zstd APIs as STL std APIs. [EXPERIMENTAL]"
 	default n

@@ -11,6 +11,7 @@ zephyr_library()
 zephyr_library_sources(
   src/time.c
   src/mutex.cpp
+  src/thread.cpp
 )
 
 zephyr_library_link_libraries(ZSTD)
